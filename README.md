@@ -1,2 +1,5 @@
 # battleGame
-Jeu de combat en PHP pour apprendre les bases et principes de la programmation orientée objet.
+
+_________________
+
+**Création d'un jeu de combat en PHP pour apprendre les bases et les principes de la programmation orientée objet avec ce dernier.**
