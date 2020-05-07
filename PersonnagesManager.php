@@ -27,13 +27,19 @@ class PersonnagesManager
         $request->bindValue(':experience', $perso->getExperience(), PDO::PARAM_INT);
 
         $request->execute();
+        if ($request->errorCode() > 0) {
+            print("Une erreur SQL est intervenue :<br/>");
+            print_r($request->errorInfo()[2] . "<br/>");
+        }
     }
     /*
      * Supprimer un personnage en se servant de l'id
      */
     public function delete(Personnage $perso)
     {
-        $this->_db->exec('DELETE FROM personnages WHERE id=' . $this->id() . ';');
+        $request = $this->_db->prepare('SELECT id, nom, `force`, vie, niveau, experience FROM personnages WHERE id= :id ;');
+        $request->bindValue(':id', $this->getId(), PDO::PARAM_STR);
+        $request->execute();
     }
     /*
      * Retourne la ligne d'un personnage en se servant de l'id
@@ -42,7 +48,16 @@ class PersonnagesManager
     {
         $id = (int) $id;
 
-        $request = $this->_db->query('SELECT id, nom, `force`, vie, niveau, experience FROM personnages WHERE id=' . $id . ';');
+        // $request = $this->_db->query('SELECT id, nom, `force`, vie, niveau, experience FROM personnages WHERE id=' . $id . ';');
+        $request = $this->_db->prepare('SELECT id, nom, `force`, vie, niveau, experience FROM personnages WHERE id= :id ;');
+        $request->bindValue(':id', $this->getId(), PDO::PARAM_STR);
+        $request->execute();
+
+        if ($request->errorCode() > 0) {
+            print("Une erreur SQL est intervenue :<br/>");
+            print_r($request->errorInfo()[2] . "<br/>");
+        }
+
         $ligne = $request->fetch(PDO::FETCH_ASSOC);
 
         return new Personnage($ligne);
@@ -54,7 +69,7 @@ class PersonnagesManager
     {
         $persos = array();
 
-        $request = $this->_db->query('SELECT id, nom, `force`, viee, niveau, experience FROM personnages ORDER BY nom;');
+        $request = $this->_db->query('SELECT id, nom, `force`, vie, niveau, experience FROM personnages ORDER BY nom;');
         if ($request) {
             while ($ligne = $request->FETCH(PDO::FETCH_ASSOC)) {
                 $persos[] = new Personnage($ligne);
@@ -70,6 +85,14 @@ class PersonnagesManager
      */
     public function update(Personnage $perso)
     {
+        $request = $this->_db->prepare('UPDATE personnages SET  `force` = :force, vie = :vie, niveau = :niveau, experience = :experience WHERE id = :id ;');
 
+        $request->bindValue(':force', $perso->getForce(), PDO::PARAM_INT);
+        $request->bindValue(':vie', $perso->getVie(), PDO::PARAM_INT);
+        $request->bindValue(':niveau', $perso->getNiveau(), PDO::PARAM_INT);
+        $request->bindValue(':experience', $perso->getExperience(), PDO::PARAM_INT);
+        $request->bindvalue(':id', $perso->getId(), PDO::PARAM_INT);
+
+        $request->execute();
     }
 }

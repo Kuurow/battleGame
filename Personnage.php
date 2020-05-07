@@ -5,23 +5,22 @@ class Personnage
     private $_id;
     private $_force = 20; //--- Attributs avec $_
     private $_experience = 0; //--- Attributs avec $_
-    private $_vie;  //--- Attributs concernant un objet ayant pour classe Personnage
+    private $_vie = 1000; //--- Attributs concernant un objet ayant pour classe Personnage
     private $_nom = "Inconnu";
-    private $_niveau;
-    private static $_compteur = 0;  //--- Attribut statique concernant la classe Personnage
+    private $_niveau = 1;
+    private static $_compteur = 0; //--- Attribut statique concernant la classe Personnage
 
     //--- Méthode magique servant à mettre en place un constructeur pour créer un objet personnage faisant parti de la classe Personnage
     public function __construct(array $ligne)
     {
         $this->hydrate($ligne);
-        self::$_compteur++;  //--- Incrémentation de l'attribut statique $_compteur concernant la classe Personnage
+        self::$_compteur++; //--- Incrémentation de l'attribut statique $_compteur concernant la classe Personnage
     }
 
-
-    public function hydrate (array $ligne) 
+    public function hydrate(array $ligne)
     {
         foreach ($ligne as $key => $value) {
-            $method = 'set'.ucfirst($key);
+            $method = 'set' . ucfirst($key);
 
             if (method_exists($this, $method)) {
                 $this->$method($value);
@@ -30,12 +29,14 @@ class Personnage
 
     }
 
-    public static function getNombrePerso() {
+    public static function getNombrePerso()
+    {
         return ("Il y a " . self::$_compteur . " personnage(s)\n");
     }
 
     //--- Méthode dite magique servant à convertir en chaine de caractères les attributs d'un objet personnage
-    public function __toString() {
+    public function __toString()
+    {
         return $this->getNom() . " a " . $this->getVie() . " point(s) de vie, possède une force de " . $this->getForce() . " point(s) et " . $this->getExperience() . " point(s) d'expérience. <br />\n";
     }
 
@@ -114,7 +115,7 @@ class Personnage
     {
         $niveau = (int) $niveau;
 
-        if ($niveau >= 1 && $niveau <= 100) {
+        if ($niveau >= 0 && $niveau <= 100) {
             $this->_niveau = $niveau;
         }
     }
@@ -141,7 +142,8 @@ class Personnage
         print("Vie du personnage " . $this->getNom() . " : " . $this->getVie());
     }
     //--- Affichage des points d'expérience d'un personnage
-    public function afficherExperience() {
+    public function afficherExperience()
+    {
         print("Le personnage " . $this->_nom . " a " . $this->getExperience() . " point(s) d'expérience. <br/>\n");
     }
     //--- Résultats suite à un combat
