@@ -2,46 +2,64 @@
 
 class Personnage
 {
-    private $_id;
-    private $_force = 20; //--- Attributs avec $_
-    private $_experience = 0; //--- Attributs avec $_
-    private $_vie = 1000; //--- Attributs concernant un objet ayant pour classe Personnage
-    private $_nom = "Inconnu";
-    private $_niveau = 1;
-    private static $_compteur = 0; //--- Attribut statique concernant la classe Personnage
+    private $_id; // Id du personnage
+    private $_nom; // Nom du personnage
+    private $_force = 50; // Force du personnage
+    private $_experience = 0; // Points d'expérience du personnage
+    private $_vie = 1000; // Vie du personnage
+    private $_niveau = 1; // Niveau du personnage
 
-    //--- Méthode magique servant à mettre en place un constructeur pour créer un objet personnage faisant parti de la classe Personnage
+
+    const CEST_MOI = 1; // Constante renvoyée par la méthode `frapper` si on se frappe soi-même
+    const PERSONNAGE_TUE = 2; // Constante renvoyée par la méthode `frapper` si on a tué le personnage en le frappant
+    const PERSONNAGE_FRAPPE = 3; // Constante renvoyée par la méthode `frapper` si on a bien frappé le personnage
+
+
     public function __construct(array $ligne)
     {
         $this->hydrate($ligne);
-        self::$_compteur++; //--- Incrémentation de l'attribut statique $_compteur concernant la classe Personnage
     }
+
 
     public function hydrate(array $ligne)
     {
-        foreach ($ligne as $key => $value) {
+        foreach ($ligne as $key => $value) // Pour chaque ligne on récupère le nom des attributs ($key) qui ont une valeur ($value)
+        {
+            // On récupère le nom du setter correspondant à l'attribut.
             $method = 'set' . ucfirst($key);
 
+            // Si le setter correspondant existe.
             if (method_exists($this, $method)) {
+                // On appelle le setter.
                 $this->$method($value);
+            } else {
+                print('<br/>La méthode <b>' . $method . '</b> n\'existe pas !' . "\n");
             }
         }
-
     }
 
-    public static function getNombrePerso()
-    {
-        return ("Il y a " . self::$_compteur . " personnage(s)\n");
-    }
+    // public static function getNombrePersos()
+    // {
+    //     switch(self::$_compteur)
+    //     {
+    //         case 0:  // Dans le cas pour self::$_compteur = 0, soit aucun personnage
+    //             print('Il n\'y a aucun personnage !');
+    //             break;
 
-    //--- Méthode dite magique servant à convertir en chaine de caractères les attributs d'un objet personnage
-    public function __toString()
-    {
-        return $this->getNom() . " a " . $this->getVie() . " point(s) de vie, possède une force de " . $this->getForce() . " point(s) et " . $this->getExperience() . " point(s) d'expérience. <br />\n";
-    }
+    //         case 1:  // Dans le cas pour self::$_compteur = 1
+    //             print('Il y a ' . self::$_compteur . ' personnage.' . "<br>\n");
+    //             break;
 
-    //--- SETTER & GETTER pour l'attribut _id
-    public function setId($id)
+    //         default: // Dans tout les autres cas
+    //             print('Il y a ' . self::$_compteur . ' personnages.' . "<br>\n");
+    //             break;
+    //     }
+    // }
+
+    /** =======================================
+     *  ------------ Début SETTERS ------------
+     */
+    public function setId($id) // attribut _id
     {
         $id = (int) $id;
 
@@ -50,39 +68,24 @@ class Personnage
         }
     }
 
-    public function getId()
+    public function setNom($nom) // attribut _nom
     {
-        return $this->_id;
-    }
-
-    //--- SETTER & GETTER pour l'attribut _nom
-    public function setNom($nom)
-    {
+        // On vérifie qu'il s'agit bien d'une chaîne de caractères.
         if (is_string($nom)) {
             $this->_nom = $nom;
         }
     }
 
-    public function getNom()
-    {
-        return $this->_nom;
-    }
-    //--- SETTER & GETTER pour l'attribut _force
-    public function setForce($force)
+    public function setForce($force) // attribut _force
     {
         if (!is_int($force)) {
-            //trigger_error("Veuillez saisir une force avec un format entier.", E_USER_WARNING);
+            trigger_error("Veuillez saisir une force avec un format entier.", E_USER_WARNING);
         } else {
             $this->_force = $force;
         }
     }
 
-    public function getForce()
-    {
-        return $this->_force;
-    }
-    //--- SETTER & GETTER pour l'attribut _experience
-    public function setExperience($experience)
+    public function setExperience($experience) // attribut _experience
     {
         $experience = (int) $experience;
 
@@ -91,12 +94,7 @@ class Personnage
         }
     }
 
-    public function getExperience()
-    {
-        return $this->_experience;
-    }
-    //--- SETTER & GETTER pour l'attribut _vie
-    public function setVie($vie)
+    public function setVie($vie) // attribut _vie
     {
         $vie = (int) $vie;
 
@@ -105,54 +103,87 @@ class Personnage
         }
     }
 
-    public function getVie()
+    public function setNiveau($niveau) // attribut _niveau
+    {
+        $niveau = (int) $niveau;
+
+        if ($niveau >= 1 && $niveau <= 100) {
+            $this->_niveau = $niveau;
+        }
+    }
+    /** =======================================
+     *  ------------- Fin SETTERS -------------
+     *      ===============================
+     *  ------------ Début GETTERS ------------
+     *  =======================================
+     */
+    public function getId() // attribut _id
+    {
+        return $this->_id;
+    }
+
+    public function getNom() // attribut _nom
+    {
+        return $this->_nom;
+    }
+
+    public function getForce() // attribut _force
+    {
+        return $this->_force;
+    }
+
+    public function getExperience() // attribut _experience
+    {
+        return $this->_experience;
+    }
+
+    public function getVie() // attribut _vie
     {
         return $this->_vie;
     }
 
-    //--- SETTER & GETTER pour l'attribut _niveau
-    public function setNiveau($niveau)
-    {
-        $niveau = (int) $niveau;
-
-        if ($niveau >= 0 && $niveau <= 100) {
-            $this->_niveau = $niveau;
-        }
-    }
-
-    public function getNiveau()
+    public function getNiveau() // attribut _niveau
     {
         return $this->_niveau;
+    }
+    /**
+     *  ------------- Fin GETTERS -------------
+     *  =======================================
+     */
+    public function parler()
+    {
+        print('Je suis un personnage !' . "<br/>\n");
     }
 
     //--- Combat entre deux personnages par l'action frapper
     public function frapper(Personnage $ennemi)
     {
-        print($this->getNom() . " à frappé " . $ennemi->getNom() . "<br />\n");
-        $vieEnnemiAvant = $ennemi->getVie();
-        $ennemi->_vie -= $this->_force;
-        $this->_experience += 1;
-        $this->getExperience();
-        print($ennemi->getNom() . " a perdu " . ($vieEnnemiAvant - $ennemi->getVie()) . " point(s) de vie. <br />\n");
-        $this->resultFight($ennemi);
+        if ($ennemi->getId() == $this->_id) {
+            return self::CEST_MOI;
+        }
+
+        // On indique au personnage qu'il doit recevoir des dégâts.
+        // Puis on retourne la valeur renvoyée par la méthode : self::PERSONNAGE_TUE ou self::PERSONNAGE_FRAPPE
+        return $ennemi->recevoirDegats();
     }
-    //--- Affichage de la vie d'un personnage
-    public function afficherVie()
+
+
+    public function recevoirDegats()
     {
-        print("Vie du personnage " . $this->getNom() . " : " . $this->getVie());
+        $this->_vie -= 50;
+
+        // Si vie personnage <= 0 il est tué.
+        if ($this->_vie <= 0) {
+            return self::PERSONNAGE_TUE;
+        }
+
+        // Sinon, on se contente de dire que le personnage a bien été frappé.
+        return self::PERSONNAGE_FRAPPE;
     }
-    //--- Affichage des points d'expérience d'un personnage
-    public function afficherExperience()
+
+    public function nomValide() // Vérification si le nom est valide (si vide ou non)
     {
-        print("Le personnage " . $this->_nom . " a " . $this->getExperience() . " point(s) d'expérience. <br/>\n");
-    }
-    //--- Résultats suite à un combat
-    public function resultFight($ennemi)
-    {
-        print("<b>Résultats du combat :</b><br />");
-        print("<i>Date du combat : " . date("l j F Y à H : i") . "</i><br />");
-        print($this->getNom() . ": Vie = " . $this->getVie() . " / Force : " . $this->getForce() . " / Expérience : " . $this->getExperience() . " / Niveau :" . $this->getNiveau() . "<br />\n"); //--- Affichage des stats de l'attaquant
-        print($ennemi->getNom() . ": Vie = " . $ennemi->getVie() . " / Force : " . $ennemi->getForce() . " / Expérience : " . $ennemi->getExperience() . " / Niveau :" . $ennemi->getNiveau() . "<br />\n"); //--- Affichage des stats de l'ennemi
+        return !empty($this->_nom);
     }
 
 }

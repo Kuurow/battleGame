@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@600&display=swap');
+
+html {
+    box-shadow: inset 0 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+body {
+    background-color: black;
+    background-image: url("../img/background.jpg");
+    background-size: cover; 
+    color: white;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 1rem;
+}
+
+h1 {
+    text-align: center;
+    font-family: 'Exo 2', sans-serif;
+    color: white;
+    text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.66);
+}
+
+hr {
+    height: 1px;
+    background-color: #000000;
+    border: 0;
+    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+.jeu {
+    align-items: center;
+    align-content: center;
+}
+
+.characterList {
+    background-color: rgba(0, 0, 0, 0.41);
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px 5px 5px 5px;
+    transition: all 0.5s;
+}
+
+.characterList legend {
+    font-weight: bolder;
+    margin-left: auto;
+    margin-right: auto;
+    text-shadow: 0px 1px 9px rgba(0,0,0,0.45);
+}
+
+.characterList a {
+    font-weight: bolder;
+    margin-left: auto;
+    margin-right: auto;
+    text-shadow: 0px 1px 9px rgba(0,0,0,0.45);
+    text-decoration: none;
+    color: rgb(115, 152, 255);
+    transition: all 0.66s;
+}
+
+.characterList a:hover {
+    font-weight: bold;
+    color: rgb(89, 223, 140);
+    text-shadow: 0 0 2px rgb(65, 163, 103);
+}
+
+.center {
+    margin: auto;
+    text-align: center;
+}
+
+.characterList:hover {
+    box-shadow: 0px 1px 9px rgba(0,0,0,0.45);
+    background-color: rgba(0, 0, 0, 0.61);
+}
+
+
+
+form p {
+    text-shadow: 0px 1px 9px rgba(0,0,0,0.75);
+}
+
+form .buttonForm {
+    background-color: rgba(99, 52, 185, 0.678);
+    border: 1px solid transparent;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0px 1px 9px rgba(0,0,0,0.45);
+    text-shadow: 0px 1px 9px rgba(0,0,0,0.45);
+    height: 22px;
+    transition: all 0.66s;
+    font-family: 'Exo 2', sans-serif;
+}
+
+form .buttonForm:hover {
+    background-color: rgba(24, 136, 89, 0.61);
+    border: 1px solid rgba(255, 255, 255, 0.623);
+    cursor: pointer;
+    color: white;
+    box-shadow: 0px 1px 9px rgba(255, 255, 255, 0.45);
+}
+
+form .textForm {
+    text-align: center;
+}
+
+form .inputTextForm {
+    text-align: left;
+}
+
+.message {
+    font-size: 1.1rem;
+    animation: redGlow 5s linear infinite 1s;
+    text-align: center;
+}
+
+/* Lien d'accueil */
+.linkHome {
+    display:block;
+    width:100px;
+    line-height:40px;
+    text-align:center;
+    border: 1px solid black;
+    color:rgba(0, 0, 0, 0.90);
+    text-decoration:none;
+    border-radius: 15px 15px 15px 15px;
+    margin-left: auto;
+    margin-right:auto;
+    background-color: rgba(255, 255, 255, 0.63);
+    transition: all 0.66s;
+}
+
+.linkHome:Hover {
+    color:rgba(255, 255, 255, 0.842);
+    font-weight: bolder;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.3);
+    background : rgba(0, 0, 0, 0.66);
+    font-weight: bold;
+    border: 1px solid white;
+}
+
+/* Animation scintillement */
+.glow {
+    animation: glow 5s linear infinite 2s;
+}
+
+@keyframes glow {
+    40% {
+        text-shadow: 0 0 8px #fff;
+    }
+}
+
+/* Animation scintillement rouge */
+@keyframes redGlow {
+    50% {
+        text-shadow: 0 0 8px rgba(255, 0, 0, 1);
+        color: rgb(255, 0, 0);
+    }
+}
+
+.greenGlow {
+    animation: greenGlow 5s linear infinite 1s;
+    color: #fff;
+}
+
+/* Animation scintillement vert */
+@keyframes greenGlow {
+    50% {
+        text-shadow: 0 0 8px rgb(83, 247, 124);
+        color: rgb(83, 247, 124);
+    }
+}
